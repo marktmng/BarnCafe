@@ -1,8 +1,5 @@
-Name: Peppermint Water, Quantity: 4, Price: 6.40
-Name: Cappussino coffe, Quantity: 1, Price: 10.12
-Name: Mocha Coffee, Quantity: 2, Price: 12.00
-Name: Coke, Quantity: 1, Price: 10.12
+Name: Cocacola, Quantity: 10, Price: 10.12
 
-Total Cost: $69.84
-Tax Rate(12.5%): $8.660160000000001
-Gross amount (Tax Included): $78.50016000000001
+Total Cost: $101.20
+Tax Rate(12.5%): $12.5488
+Gross amount (Tax Included): $113.7488

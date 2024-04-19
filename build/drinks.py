@@ -124,7 +124,7 @@ def show_drinks_page(main_window):
         with_tax = tc_float + tax_amount # Calculate total cost including tax
         
         list_view.insert("end", f"Total cost: ${total_cost}\n")
-        list_view.insert("end", f"Tax (12.5%): ${tax_amount}\n")
+        list_view.insert("end", f"Tax Rate(12.5%): ${tax_amount}\n")
         list_view.insert("end", f"Gross amount (Tax Included): ${with_tax}")
         
         return rows
