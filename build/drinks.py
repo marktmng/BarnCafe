@@ -3,9 +3,8 @@ import pyodbc
 from tkinter import Label, Listbox
 from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, Toplevel, Checkbutton, IntVar
-from checkout import show_checkout_page
 from database import connect_to_db
-
+import tkinter.messagebox # to generate message box
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / "assets" / "drinks-path"
@@ -17,9 +16,29 @@ def relative_to_assets(path: str) -> Path:
     
 
 def open_checkout_page():
-    # This function will handle the opening of the cookies window
-    # window.withdraw()  # Optionally hide the main window
-    show_checkout_page()  # Assuming this function creates and manages the cookies window
+        conn = connect_to_db()
+        c = conn.cursor()
+        
+        # Fetch data from the database
+        c.execute("SELECT * FROM drinks")
+        rows = c.fetchall()
+        
+        # Calculate total cost
+        total_cost = sum(row[1] * row[2] for row in rows)
+
+        # Write data to the text file
+        output_file = "drinks.txt"
+        with open(output_file, "w") as file:
+            for row in rows:
+                file.write(f"Name: {row[0]}, Quantity: {row[1]}, Price: {row[2]}\n")
+            file.write(f"Total Cost: ${total_cost}\n")
+        
+        # Read contents of the file
+        with open(output_file, "r") as file:
+            details = file.read()
+        
+        # Display alert with file path and details
+        tkinter.messagebox.showinfo("Checkout Details", f"Receipt saved to {output_file}\n\n{details}")
 
 
 
@@ -89,11 +108,11 @@ def show_drinks_page(main_window):
         for row in rows:
             list_view.insert("end", f"Name: {row[0]}, Quantity: {row[1]}, Price: {row[2]}")
         
-        print('Data fetched')
-        return rows
+        total_cost = sum(row[1] * row[2] for row in rows)
         
-    def ttlBtn():
-        print('Total Button clicked!!!!')
+        list_view.insert("end", f"Total Cost: ${total_cost}")
+        
+        return rows
         
 
     window = Toplevel()
@@ -262,21 +281,11 @@ def show_drinks_page(main_window):
         font=("InriaSans Regular", 12),
         command=lambda: Submit(n_entry, q_entry, p_entry)
     )
-    add_button.place(x=330, y=530)
-    
-    ttl_button = Button( # total cost btn
-        window,
-        text="Total Cost",
-        bg="#0504AA",
-        fg="white",
-        font=("InriaSans Regular", 12),
-        command=ttlBtn
-    )
-    ttl_button.place(x=430, y=530)
+    add_button.place(x=430, y=530)
      
     fetch_btn = Button( # fetch btn
         window,
-        text="Get Data",
+        text="Total Cost",
         bg="#4CAF50",
         fg="white",
         font=("InriaSans Regular", 12),

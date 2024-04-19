@@ -1,0 +1,4 @@
+Name: Peppermint Water, Quantity: 4, Price: 6.40
+Name: Cappussino coffe, Quantity: 1, Price: 10.12
+Name: Mocha Coffee, Quantity: 2, Price: 12.00
+Total Cost: $59.72
