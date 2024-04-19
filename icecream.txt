@@ -1,3 +1,10 @@
 Name: Rusberry, Scoop: 1, Topping: 2, Price: 5.40
-Name: Vanilla, Scoop: 4, Topping: 2, Price: 13.00
-Total Cost: $114.80
+Name: Vanilla, Scoop: 3, Topping: 2, Price: 13.00
+Name: Strawberry, Scoop: 2, Topping: 4, Price: 7.00
+Name: chocolate flavour, Scoop: 1, Topping: 3, Price: 8.00
+
+Total Cost: $168.80
+Tax Rate(12.5%): $20.9312
+Gross Amount (Tax Included): $189.7312
+
+Order Type: Takeaway

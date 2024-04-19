@@ -2,3 +2,5 @@ Name: Snicker, Quantity: 1, Price: 7.00
 Name: Sugar cookies, Quantity: 3, Price: 1.50
 Name: Chocolate Chip, Quantity: 4, Price: 3.00
 Total Cost: $23.50
+Tax (12.5%): $2.914
+Gross amount (Tax Included): $26.414

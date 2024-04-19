@@ -19,15 +19,23 @@ def open_checkout_page():
         c.execute("SELECT * FROM cookies")
         rows = c.fetchall()
         
+        
         # Calculate total cost
         total_cost = sum(row[1] * row[2] for row in rows)
+        
+        tax_rate = 0.124 # Calculate tax amount (12.5% of total cost)
+        tc_float = float(total_cost) # Convert total_cost to float for the tax calculation
+        tax_amount = tc_float * tax_rate
+        with_tax = tc_float + tax_amount # Calculate total cost including tax
 
         # Write data to the text file
         output_file = "cookies.txt"
         with open(output_file, "w") as file:
             for row in rows:
                 file.write(f"Name: {row[0]}, Quantity: {row[1]}, Price: {row[2]}\n")
-            file.write(f"Total Cost: ${total_cost}\n")
+            file.write(f"\nTotal Cost: ${total_cost}\n") # total cost
+            file.write(f"Tax Rate(12.5%): ${tax_amount}\n")
+            file.write(f"Gross amount (Tax Included): ${with_tax}\n") # gross amount
         
         # Read contents of the file
         with open(output_file, "r") as file:
@@ -108,7 +116,15 @@ def show_cookies_page(main_window):
         
         total_cost = sum(row[1] * row[2] for row in rows)
         
-        list_view.insert("end", f"Total Cost: ${total_cost}")
+        tax_rate = 0.124 # Calculate tax amount (12.5% of total cost)
+        tc_float = float(total_cost) # Convert total_cost to float for the tax calculation
+        tax_amount = tc_float * tax_rate # Calculate total cost including tax
+        
+        with_tax = tc_float + tax_amount # Calculate total cost including tax
+        
+        list_view.insert("end", f"Total cost: ${total_cost}\n")
+        list_view.insert("end", f"Tax Rate(12.5%): ${tax_amount}\n")
+        list_view.insert("end", f"Gross amount (Tax Included): ${with_tax}")
         
         return rows
     
