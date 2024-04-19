@@ -14,7 +14,7 @@ def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
 def open_cookies_page():
-    # This function will handle the opening of the cookies window
+    
     window.withdraw()  # Optionally hide the main window
     show_cookies_page(window)  # Assuming this function creates and manages the cookies window
 
