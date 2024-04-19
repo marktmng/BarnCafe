@@ -13,7 +13,7 @@ ASSETS_PATH = OUTPUT_PATH / "assets" / "icecreem-path"
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
-def open_checkout_page():
+def open_checkout_page(dine_in, takeaway):
         conn = connect_to_db()
         c = conn.cursor()
         
@@ -23,13 +23,26 @@ def open_checkout_page():
         
         # Calculate total cost
         total_cost = sum(row[1] * row[2] *row[3] for row in rows)
+        
+        tax_rate = 0.124 # Calculate tax amount (12.5% of total cost)
+        tc_float = float(total_cost) # Convert total_cost to float for the tax calculation
+        tax_amount = tc_float * tax_rate
+        with_tax = tc_float + tax_amount # Calculate total cost including tax
 
         # Write data to the text file
         output_file = "icecream.txt"
         with open(output_file, "w") as file:
             for row in rows:
                 file.write(f"Name: {row[0]}, Scoop: {row[1]}, Topping: {row[2]}, Price: {row[3]}\n")
-            file.write(f"Total Cost: ${total_cost}\n")
+            file.write(f"\nTotal Cost: ${total_cost}\n") # total cost
+            file.write(f"Tax Rate(12.5%): ${tax_amount}\n")
+            file.write(f"Gross Amount (Tax Included): ${with_tax}\n") # gross amount
+            
+            # Include Dine-in or Takeaway information in the receipt
+            if dine_in.get():
+                file.write("\nOrder Type: Dine-in\n")
+            elif takeaway.get():
+                file.write("\nOrder Type: Takeaway\n")
         
         # Read contents of the file
         with open(output_file, "r") as file:
@@ -113,7 +126,15 @@ def show_icecream_page(main_window):
         
         total_cost = sum(row[1] * row[2] * row[2] for row in rows)
         
-        list_view.insert("end", f"Total Cost: ${total_cost}")
+        tax_rate = 0.124 # Calculate tax amount (12.5% of total cost)
+        tc_float = float(total_cost) # Convert total_cost to float for the tax calculation
+        tax_amount = tc_float * tax_rate # Calculate total cost including tax
+        
+        with_tax = tc_float + tax_amount # Calculate total cost including tax
+        
+        list_view.insert("end", f"Total cost: ${total_cost}\n")
+        list_view.insert("end", f"Tax Rate(12.5%): ${tax_amount}\n")
+        list_view.insert("end", f"Gross amount (Tax Included): ${with_tax}")
         
         return rows
 
@@ -339,17 +360,17 @@ def show_icecream_page(main_window):
         bg="#0f97db",
         fg="white",
         font=("InriaSans Regular", 12),
-        command=open_checkout_page
+        command=lambda: open_checkout_page(dine_in, takeaway)
     )
     button_checkout.place(x=700, y=530)
     
     # Checkboxes for Takeaway and Dine-in
-    takeaway_var = IntVar()
-    takeaway_checkbox = Checkbutton(window, text="Takeaway", variable=takeaway_var, bg="#FFFFFF")
+    takeaway = IntVar()
+    takeaway_checkbox = Checkbutton(window, text="Takeaway", variable=takeaway, bg="#FFFFFF")
     takeaway_checkbox.place(x=100, y=530)
 
-    dine_in_var = IntVar()
-    dine_in_checkbox = Checkbutton(window, text="Dine-in", variable=dine_in_var, bg="#FFFFFF")
+    dine_in = IntVar()
+    dine_in_checkbox = Checkbutton(window, text="Dine-in", variable=dine_in, bg="#FFFFFF")
     dine_in_checkbox.place(x=200, y=530)
     
      # Create a Listbox
