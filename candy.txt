@@ -1,0 +1,4 @@
+Name: banana candy, Quantity: 4, Price: 4.45
+Name: Lue Rusberry Candy, Quantity: 2, Price: 3.70
+Name: Banana candy, Quantity: 4, Price: 4.00
+Total Cost: $41.20
