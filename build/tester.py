@@ -2,6 +2,7 @@ from decimal import Decimal
 from unittest import TestCase, main
 from unittest.mock import patch
 from io import StringIO
+import pytest
 
 # Importing classes and functions to be tested
 from bl import (
