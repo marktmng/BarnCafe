@@ -1,7 +1,8 @@
 Name: Snicker, Quantity: 1, Price: 7.00
 Name: Sugar Cks, Quantity: 2, Price: 1.50
+Name: Chocolate chips cookies, Quantity: 1, Price: 3.00
 Name: Peanut Butt, Quantity: 4, Price: 2.99
 
-Total Cost: $21.96
-Tax Rate(12.5%): $2.72304
-Gross amount (Tax Included): $24.683040000000002
+Total Cost: $24.96
+Tax Rate(12.5%): $3.09504
+Gross amount (Tax Included): $28.05504
