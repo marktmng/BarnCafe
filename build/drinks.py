@@ -8,14 +8,19 @@ import tkinter.messagebox # to generate message box
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / "assets" / "drinks-path"
+import logging
 
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
-    
+
+# Initialize logger
+logging.basicConfig(filename='error.log', level=logging.ERROR)    
     
 
 def open_checkout_page():
+    try:
+        # Database connection code
         conn = connect_to_db()
         c = conn.cursor()
         
@@ -26,19 +31,20 @@ def open_checkout_page():
         # Calculate total cost
         total_cost = sum(row[1] * row[2] for row in rows)
         
-        tax_rate = 0.124 # Calculate tax amount (12.5% of total cost)
-        tc_float = float(total_cost) # Convert total_cost to float for the tax calculation
+        # Calculate tax amount
+        tax_rate = 0.124
+        tc_float = float(total_cost)
         tax_amount = tc_float * tax_rate
-        with_tax = tc_float + tax_amount # Calculate total cost including tax
+        with_tax = tc_float + tax_amount
 
         # Write data to the text file
         output_file = "drinks.txt"
         with open(output_file, "w") as file:
             for row in rows:
                 file.write(f"Name: {row[0]}, Quantity: {row[1]}, Price: {row[2]}\n")
-            file.write(f"\nTotal Cost: ${total_cost}\n") # total cost
+            file.write(f"\nTotal Cost: ${total_cost}\n")
             file.write(f"Tax Rate(12.5%): ${tax_amount}\n")
-            file.write(f"Gross amount (Tax Included): ${with_tax}\n") # gross amount
+            file.write(f"Gross amount (Tax Included): ${with_tax}\n")
         
         # Read contents of the file
         with open(output_file, "r") as file:
@@ -47,88 +53,104 @@ def open_checkout_page():
         # Display alert with file path and details
         tkinter.messagebox.showinfo("Checkout Details", f"Receipt saved to {output_file}\n\n{details}")
 
+    except Exception as e:
+        # Log error
+        logging.error(f"An error occurred: {str(e)}")
+        # Display error message to the user
+        tkinter.messagebox.showerror("Error", "An error occurred while processing your request. Please try again later.")    
+
 
 
 def show_drinks_page(main_window):
     
     # functions for buttons
     def Submit(n_entry, q_entry, p_entry): # Submit button
-        conn = connect_to_db() # connection
-        c = conn.cursor()
-        
-        name = n_entry.get()
-        quantity = q_entry.get()
-        price = p_entry.get() 
-        
-        # def calculate_price(name, quantiy, price):
-        #     pass 
-        
-        
-        c.execute("INSERT INTO drinks VALUES (?, ?, ?)", (name, quantity, price))
-        
-        conn.commit() # commit changes
-        # Clear Entry widgets after successful submission
-        n_entry.delete(0, "end")
-        q_entry.delete(0, "end")
-        p_entry.delete(0, "end")
+        try:
+            conn = connect_to_db()
+            c = conn.cursor()
             
-        print('Data Added !!!')
+            name = n_entry.get()
+            quantity = q_entry.get()
+            price = p_entry.get() 
+            
+            # Input validation
+            if not (name and quantity and price):
+                raise ValueError("Please fill in all fields.")
+            
+            # Convert quantity and price to float
+            quantity = float(quantity)
+            price = float(price)
+            
+            c.execute("INSERT INTO drinks VALUES (?, ?, ?)", (name, quantity, price))
+            
+            conn.commit()
+            
+            # Clear Entry widgets after successful submission
+            n_entry.delete(0, "end")
+            q_entry.delete(0, "end")
+            p_entry.delete(0, "end")
+            
+            tkinter.messagebox.showerror('Success', 'Drinks Added !!!')
+            
+        except Exception as e:
+            # Log error
+            logging.error(f"An error occurred in Submit function: {str(e)}")
+            # Display error message to the user
+            tkinter.messagebox.showerror("Error", f"An error occurred: {str(e)}")
         
     def btnDelete(): # delete button
-        conn = connect_to_db()  # Establish connection
-        c = conn.cursor()
+        try:
+            conn = connect_to_db()
+            c = conn.cursor()
 
-        # Get the selected item from the Listbox
-        selected_item = list_view.curselection()
+            selected_item = list_view.curselection()
 
-        if selected_item:  # Check if an item is selected
-            # Get the text of the selected item
-            item_text = list_view.get(selected_item)
+            if selected_item:
+                item_text = list_view.get(selected_item)
+                name = item_text.split(",")[0].split(":")[1].strip()
 
-            # Extract name from the selected item text
-            name = item_text.split(",")[0].split(":")[1].strip()
+                list_view.delete(selected_item)
 
-            # Delete the selected item from the Listbox
-            list_view.delete(selected_item)
+                c.execute("DELETE FROM drinks WHERE name=?", (name,))
+                conn.commit()
 
-            # Delete the item from the database
-            c.execute("DELETE FROM drinks WHERE name=?", (name,))
-            conn.commit()
-
-            print('Item deleted successfully')
-        else:
-            print("No item selected")
+                print('Item deleted successfully')
+            else:
+                print("No item selected")
+        except Exception as e:
+            logging.error(f"An error occurred in btnDelete function: {str(e)}")
+            tkinter.messagebox.showerror("Error", f"An error occurred: {str(e)}")
         
         
     def Fetch(): # fetching data button
-        conn = connect_to_db()
-        c = conn.cursor()
+        try:
+            conn = connect_to_db()
+            c = conn.cursor()
 
-        # Fetch data from the database
-        c.execute("SELECT * FROM drinks")
-        rows = c.fetchall()
+            c.execute("SELECT * FROM drinks")
+            rows = c.fetchall()
 
-        # Clear existing items in the Listbox
-        list_view.delete(0, "end")
+            list_view.delete(0, "end")
 
-        # Insert fetched data into the Listbox
-        for row in rows:
-            list_view.insert("end", f"Name: {row[0]}, Quantity: {row[1]}, Price: {row[2]}")
+            for row in rows:
+                list_view.insert("end", f"Name: {row[0]}, Quantity: {row[1]}, Price: {row[2]}")
+            
+            total_cost = sum(row[1] * row[2] for row in rows)
+            tax_rate = 0.124 
+            tc_float = float(total_cost)
+            tax_amount = tc_float * tax_rate 
+            
+            with_tax = tc_float + tax_amount 
+            
+            list_view.insert("end", f"Total cost: ${total_cost}\n")
+            list_view.insert("end", f"Tax Rate(12.5%): ${tax_amount}\n")
+            list_view.insert("end", f"Gross amount (Tax Included): ${with_tax}")
+            
+            return rows # Using tuple to return the fetched rows
         
-        total_cost = sum(row[1] * row[2] for row in rows)
-        
-        tax_rate = 0.124 # Calculate tax amount (12.5% of total cost)
-        tc_float = float(total_cost) # Convert total_cost to float for the tax calculation
-        tax_amount = tc_float * tax_rate # Calculate total cost including tax
-        
-        with_tax = tc_float + tax_amount # Calculate total cost including tax
-        
-        list_view.insert("end", f"Total cost: ${total_cost}\n")
-        list_view.insert("end", f"Tax Rate(12.5%): ${tax_amount}\n")
-        list_view.insert("end", f"Gross amount (Tax Included): ${with_tax}")
-        
-        return rows
-        
+        except Exception as e:
+            logging.error(f"An error occurred in Fetch function: {str(e)}")
+            tkinter.messagebox.showerror("Error", f"An error occurred: {str(e)}")
 
     window = Toplevel()
 

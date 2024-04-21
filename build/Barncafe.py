@@ -1,5 +1,7 @@
+from abc import abstractmethod
+import logging
 from pathlib import Path
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, Toplevel
 from cookies import show_cookies_page
 from candy import show_candy_page
 from drinks import show_drinks_page
@@ -12,6 +14,166 @@ ASSETS_PATH = OUTPUT_PATH / "assets" / "home-path"
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
+
+# Initialize logger
+logging.basicConfig(filename='error.log', level=logging.ERROR)    
+
+# Define a base class for products
+# Initialize logger
+logging.basicConfig(filename='error.log', level=logging.ERROR)    
+
+# Define a base class for products
+class Product:
+    def __init__(self, name, price, quantity):
+        self._name = name
+        self._price = price
+        self._quantity = quantity
+
+    @abstractmethod
+    def calculate_total_cost(self):  # Abstract method
+        pass
+
+    # Encapsulation - getters and setters for the attributes
+    def get_name(self):
+        return self._name
+
+    def set_name(self, name):
+        self._name = name
+
+    def get_price(self):
+        return self._price
+
+    def set_price(self, price):
+        self._price = price
+
+    def get_quantity(self):
+        return self._quantity
+
+    def set_quantity(self, quantity):
+        self._quantity = quantity
+
+# Subclass for Ice Cream products
+class IceCream(Product):
+    def __init__(self, name, price, quantity, scoop, topping):
+        super().__init__(name, price, quantity)
+        self._scoop = scoop  # Data hiding - scoop is now a protected attribute
+        self._topping = topping  # Data hiding - topping is now a protected attribute
+        
+    def calculate_total_cost(self):
+        return self._price * self._quantity
+
+    # Encapsulation - getters and setters for the attributes
+    def get_scoop(self):
+        return self._scoop
+
+    def set_scoop(self, scoop):
+        self._scoop = scoop
+
+    def get_topping(self):
+        return self._topping
+
+    def set_topping(self, topping):
+        self._topping = topping
+
+# Subclass for Drinks products
+class Drink(Product):
+    def __init__(self, name, price, quantity, size):
+        super().__init__(name, price, quantity)
+        self._size = size  # Data hiding - size is now a protected attribute
+        
+    def calculate_total_cost(self):
+        return self._price * self._quantity
+
+    # Encapsulation - getters and setters for the attributes
+    def get_size(self):
+        return self._size
+
+    def set_size(self, size):
+        self._size = size
+
+# Subclass for special Ice Cream products
+class SpecialIceCream(IceCream):
+    def __init__(self, name, price, quantity, scoop, topping, special_attribute):
+        super().__init__(name, price, quantity, scoop, topping)
+        self._special_attribute = special_attribute  # Data hiding - special_attribute is now a protected attribute
+
+    # Encapsulation - getter and setter for the attribute
+    def get_special_attribute(self):
+        return self._special_attribute
+
+    def set_special_attribute(self, special_attribute):
+        self._special_attribute = special_attribute
+
+# Subclass for special Drinks products
+class SpecialDrink(Drink):
+    def __init__(self, name, price, quantity, size, special_attribute):
+        super().__init__(name, price, quantity, size)
+        self._special_attribute = special_attribute  # Data hiding - special_attribute is now a protected attribute
+
+    # Encapsulation - getter and setter for the attribute
+    def get_special_attribute(self):
+        return self._special_attribute
+
+    def set_special_attribute(self, special_attribute):
+        self._special_attribute = special_attribute
+        
+# Subclass for Candy products
+class Candy(Product):
+    def __init__(self, name, price, quantity, flavor):
+        super().__init__(name, price, quantity)
+        self._flavor = flavor  # Data hiding - flavor is now a protected attribute
+
+    def calculate_total_cost(self):
+        return self._price * self._quantity
+
+    # Encapsulation - getters and setters for the attributes
+    def get_flavor(self):
+        return self._flavor
+
+    def set_flavor(self, flavor):
+        self._flavor = flavor
+
+# Subclass for Cookies products
+class Cookies(Product):
+    def __init__(self, name, price, quantity, type):
+        super().__init__(name, price, quantity)
+        self._type = type  # Data hiding - type is now a protected attribute
+
+    def calculate_total_cost(self):
+        return self._price * self._quantity
+
+    # Encapsulation - getters and setters for the attributes
+    def get_type(self):
+        return self._type
+
+    def set_type(self, type):
+        self._type = type
+    
+
+# main page
+def show_barncafe_page(main_window):
+    window = Toplevel()
+    window.geometry("939x603")
+    window.configure(bg="#FFFFFF")
+
+    # Override the close button behavior
+    def on_close():
+        main_window.deiconify()  # Show the main window
+        window.destroy()  # Close the current window
+
+    window.protocol("WM_DELETE_WINDOW", on_close)  # Attach the custom close behavior
+
+    canvas = Canvas(
+        window,
+        bg="#FFFFFF",
+        height=603,
+        width=939,
+        bd=0,
+        highlightthickness=0,
+        relief="ridge"
+    )
+
+    canvas.place(x=0, y=0)
 
 def open_cookies_page():
     

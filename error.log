@@ -1,0 +1,22 @@
+ERROR:root:An error occurred in Submit function: could not convert string to float: 'Cola'
+ERROR:root:An error occurred in Submit function: cannot access local variable 'n_entry' where it is not associated with a value
+ERROR:root:An error occurred in Submit function: cannot access local variable 'n_entry' where it is not associated with a value
+ERROR:root:An error occurred in Submit function: cannot access local variable 'n_entry' where it is not associated with a value
+ERROR:root:An error occurred in Submit function: could not convert string to float: 'Suar'
+ERROR:root:An error occurred in Submit function: Please fill in all fields.
+ERROR:root:An error occurred in Submit function: Please fill in all fields.
+ERROR:root:An error occurred in Submit function: Please fill in all fields.
+ERROR:root:An error occurred in Submit function: Please fill in all fields.
+ERROR:root:An error occurred in Submut function: ('42000', '[42000] [Microsoft][ODBC SQL Server Driver][SQL Server]Error converting data type nvarchar to numeric. (8114) (SQLExecDirectW)')
+ERROR:root:An error occurred in Submit function: Please fill in all fields.
+ERROR:root:An error occurred in Submit function: Please fill in all fields.
+ERROR:root:An error occurred in Submit function: Please fill in all fields.
+ERROR:root:An error occurred in Submit function: Please fill in all fields.
+ERROR:root:An error occurred in Submit function: Please fill in all fields.
+ERROR:root:An error occurred in Submut function: ('42000', '[42000] [Microsoft][ODBC SQL Server Driver][SQL Server]Error converting data type nvarchar to numeric. (8114) (SQLExecDirectW)')
+ERROR:root:An error occurred in Submit function: Please fill in all fields.
+ERROR:root:An error occurred in Submut function: ('42000', '[42000] [Microsoft][ODBC SQL Server Driver][SQL Server]Error converting data type nvarchar to numeric. (8114) (SQLExecDirectW)')
+ERROR:root:An error occurred in Submut function: Please fill in all fields.
+ERROR:root:An error occurred in Submit function: Please fill in all fields.
+ERROR:root:An error occurred in Submit function: Please fill in all fields.
+ERROR:root:An error occurred in Submit function: Please fill in all fields.

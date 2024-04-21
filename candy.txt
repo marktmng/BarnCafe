@@ -1,5 +1,8 @@
 Name: Banana candy, Quantity: 10, Price: 4.00
+Name: Lue Rusberry, Quantity: 7, Price: 3.70
+Name: Cinnamon, Quantity: 2, Price: 2.50
+Name: Coconut Candy, Quantity: 3, Price: 1.99
 
-Total Cost: $40.00
-Tax Rate(12.5%): $4.96
-Gross amount (Tax Included): $44.96
+Total Cost: $76.87
+Tax Rate(12.5%): $9.531880000000001
+Gross amount (Tax Included): $86.40188

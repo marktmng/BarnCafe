@@ -1,11 +1,8 @@
-Name: Rusberry, Scoop: 1, Topping: 2, Price: 5.40
 Name: Vanilla, Scoop: 3, Topping: 2, Price: 13.00
 Name: Strawberry, Scoop: 2, Topping: 4, Price: 7.00
 Name: strawberry, Scoop: 2, Topping: 4, Price: 7.00
 Name: chocolate flavour, Scoop: 1, Topping: 3, Price: 8.00
 
-Total Cost: $224.80
-Tax Rate(12.5%): $27.8752
-Gross Amount (Tax Included): $252.67520000000002
-
-Order Type: Dine-in
+Total Cost: $214.00
+Tax Rate(12.5%): $26.536
+Gross Amount (Tax Included): $240.536
