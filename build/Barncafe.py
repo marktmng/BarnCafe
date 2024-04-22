@@ -23,7 +23,7 @@ logging.basicConfig(filename='error.log', level=logging.ERROR)
 logging.basicConfig(filename='error.log', level=logging.ERROR)    
 
 # Define a base class for products
-class Product:
+class Product: # main Class and Ecacpsulation
     def __init__(self, name, price, quantity):
         self._name = name
         self._price = price
@@ -52,10 +52,10 @@ class Product:
     def set_quantity(self, quantity):
         self._quantity = quantity
 
-# Subclass for Ice Cream products
+# Subclass for Ice Cream products Inherits to Product
 class IceCream(Product):
-    def __init__(self, name, price, quantity, scoop, topping):
-        super().__init__(name, price, quantity)
+    def __init__(self, name, price, scoop, topping):
+        super().__init__(name, price)
         self._scoop = scoop  # Data hiding - scoop is now a protected attribute
         self._topping = topping  # Data hiding - topping is now a protected attribute
         

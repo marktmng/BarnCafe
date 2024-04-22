@@ -5,7 +5,7 @@ def connect_to_db():
     try:
         # Connect to the SQL Server database
         conn = pyodbc.connect('DRIVER={SQL Server};'
-                              'SERVER=20220739-Mark;'
+                              'SERVER=20220739-Mark;' # change the server name
                               'DATABASE=BarnCafeDB;'
                               'Trusted_Connection=yes;')
 

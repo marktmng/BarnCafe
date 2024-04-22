@@ -35,7 +35,7 @@ def open_checkout_page():
         tax_rate = 0.124
         tc_float = float(total_cost)
         tax_amount = tc_float * tax_rate
-        with_tax = tc_float + tax_amount
+        with_tax = tc_float + tax_amount # (Polymorphism)
 
         # Write data to the text file
         output_file = "drinks.txt"
